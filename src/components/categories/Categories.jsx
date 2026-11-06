@@ -6,7 +6,7 @@ export default function Categories() {
   const{data ,isPending , isError, error} = useCategories();
 
   if(isPending) return <CircularProgress/>
-  if(isError) return <Alert>{error}</Alert>
+  if(isError) return <Alert severity='error'>Failed to load categories</Alert>
   return (
     <>
     <Box sx={{mb:4}}>
