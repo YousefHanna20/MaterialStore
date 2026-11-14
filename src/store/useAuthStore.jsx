@@ -1,7 +1,7 @@
-import { set } from 'react-hook-form';
+
 import {create} from 'zustand';
 
-export const useAuthStore = create(()=> ({
+export const useAuthStore = create((set)=> ({
     token: localStorage.getItem('token'),
     login: (newToken) =>{
         localStorage.setItem('token' , newToken);
