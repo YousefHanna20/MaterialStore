@@ -14,12 +14,14 @@ export default function Navbar() {
         </Typography>
         <Box sx = {{flexGrow: 1}}>
           <Button color= 'inherit' component = {Link}>Home</Button>
+          <Button color = 'inherit' component = {Link} to = '/cart'>Cart</Button>
           { token ? <>
             <Button color = 'inherit' onClick = {logout}>Logout</Button>
             </> : <>
             <Button color = 'inherit' component = {Link} to = '/login' >Login</Button>
             <Button color = 'inherit' component = {Link} to = '/register' >Register</Button>
           </>
+          
           }
 
         </Box>
