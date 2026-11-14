@@ -5,7 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Container, Box, Typography, TextField, Button, Alert } from "@mui/material";
 import { loginSchema } from "../../validation/authSchemas";
 import { Link } from "react-router";
-
+import { useNavigate } from "react-router";
+import { useAuthStore } from "../../store/useAuthStore";
 export default function Login() {
   const {register , handleSubmit ,formState: {errors , isSubmitting}} = useForm(
     {
@@ -14,15 +15,26 @@ export default function Login() {
   );
   const [serverError, setServerError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const login = useAuthStore((state)=> state.login);
+  const navigate = useNavigate();
   const onSubmit = async(data) =>{
     try{
       const response = await axios.post('https://knowledgeshop.runasp.net/api/auth/Account/Login' , data);
       console.log(response);
-      setSuccess("Done")
+      setSuccess(true);
+      login(response.data.accessToken);
+      navigate('/');
+      localStorage.setItem('token' ,response.data.accessToken);
     }
     catch(error){
-      setServerError("Login failed , please try again")
-      console.log(`error..` , error);
+      console.log("server said:", error.response?.data);
+     const d = error.response?.data;
+     const message =
+      d?.message ||
+      d?.title ||
+      (d?.errors && Object.values(d.errors).flat().join(", ")) ||
+      "Something went wrong, please try again";
+      setServerError(message);
     }
   }
     return(

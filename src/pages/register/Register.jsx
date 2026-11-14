@@ -21,8 +21,14 @@ export default function Register() {
       setSuccess("Done")
     }
     catch(error){
-      setServerError("Registration failed , please try again")
-      console.log(`error..` , error);
+      console.log("server said:", error.response?.data);
+  const d = error.response?.data;
+  const message =
+    d?.message ||
+    d?.title ||
+    (d?.errors && Object.values(d.errors).flat().join(", ")) ||
+    "Something went wrong, please try again";
+  setServerError(message);
     }
   }
     return(
